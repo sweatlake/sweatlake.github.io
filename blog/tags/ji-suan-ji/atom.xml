@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Tag: 計算機 | 汗澤]]></title>
+  <link href="http://sweatlake.github.io/blog/tags/ji-suan-ji/atom.xml" rel="self"/>
+  <link href="http://sweatlake.github.io/"/>
+  <updated>2016-08-19T11:21:21+08:00</updated>
+  <id>http://sweatlake.github.io/</id>
+  <author>
+    <name><![CDATA[汗澤]]></name>
+    <email><![CDATA[hanzejl@hotmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[論編碼的自私性]]></title>
+    <link href="http://sweatlake.github.io/blog/2016-08-16-%E8%AB%96%E7%B7%A8%E7%A2%BC%E7%9A%84%E8%87%AA%E7%A7%81%E6%80%A7.html"/>
+    <updated>2016-08-16T00:00:00+08:00</updated>
+    <id>http://sweatlake.github.io/blog/論編碼的自私性</id>
+    <content type="html"><![CDATA[<p>
+自私是人類的本性，就像懶惰、貪婪等一樣根植於人的基因之中。《自私的基因》那本書將「自私」定義爲一切有利於自身生存，不利於他人生存的行爲。這裏，我想借用此概念，將編碼的自私性定義爲：一切有利於自身短期功能實現，不利於他人重複使的編碼。那麼這種編碼最大的特點就是不可維護性。那麼，今日我想借用函數這個最小的程序單元來闡述編碼的自私性的體現，我將這種自私性分爲思維、行爲和細節上的自私三種層次，下面詳細的闡述。
+</p>
+
+
+
+
+<p>
+<!-- more -->
+</p>
+
+
+
+
+<p>
+首先是思維上的自私，這種自私行爲具體是指沒有想到將程序寫成函數，導致會出現很多重複的代碼，極其不利於後期的維護。比如說下面的代碼片段，兩個函數中都需要使用最大值的功能，但是由於沒有考慮將相同功能代碼片段寫成函數，造成了很大的代碼重複。
+</p>
+
+
+
+
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #4f97d7; font-weight: bold;">def</span> <span style="color: #bc6ec5; font-weight: bold;">do_something1</span><span style="color: #4f97d7;">()</span>:
+    <span style="color: #7590db;">test_list</span> = <span style="color: #4f97d7;">[</span><span style="color: #a45bad;">1</span>, <span style="color: #a45bad;">3</span>, <span style="color: #a45bad;">0</span>, <span style="color: #a45bad;">8</span>, <span style="color: #a45bad;">9</span>, <span style="color: #a45bad;">2</span><span style="color: #4f97d7;">]</span>
+
+    <span style="color: #7590db;">max_value</span> = test_list<span style="color: #4f97d7;">[</span><span style="color: #a45bad;">0</span><span style="color: #4f97d7;">]</span>
+    <span style="color: #4f97d7; font-weight: bold;">for</span> v <span style="color: #4f97d7; font-weight: bold;">in</span> test_list<span style="color: #4f97d7;">[</span><span style="color: #a45bad;">1</span>:<span style="color: #4f97d7;">]</span>:
+        <span style="color: #4f97d7; font-weight: bold;">if</span> v &gt; max_value:  <span style="color: #7590db;">max_value</span> = v
+
+    method1<span style="color: #4f97d7;">(</span>max_value<span style="color: #4f97d7;">)</span>
+
+<span style="color: #4f97d7; font-weight: bold;">def</span> <span style="color: #bc6ec5; font-weight: bold;">do_something2</span><span style="color: #4f97d7;">()</span>:
+    <span style="color: #7590db;">test_list</span> = <span style="color: #4f97d7;">[</span><span style="color: #2d9574;">'a'</span>, <span style="color: #2d9574;">'e'</span>, <span style="color: #2d9574;">'c'</span>, <span style="color: #2d9574;">'g'</span><span style="color: #4f97d7;">]</span>
+
+    <span style="color: #7590db;">max_value</span> = test_list<span style="color: #4f97d7;">[</span><span style="color: #a45bad;">0</span><span style="color: #4f97d7;">]</span>
+    <span style="color: #4f97d7; font-weight: bold;">for</span> v <span style="color: #4f97d7; font-weight: bold;">in</span> test_list<span style="color: #4f97d7;">[</span><span style="color: #a45bad;">1</span>:<span style="color: #4f97d7;">]</span>:
+        <span style="color: #4f97d7; font-weight: bold;">if</span> v &gt; max_value: <span style="color: #7590db;">max_value</span> = v
+
+    method2<span style="color: #4f97d7;">(</span>max_value<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+
+
+
+
+<p>
+如何優化上述的代碼呢？比較好的解決方法就是將相同功能的代碼抽象成函數，有了寫成函數的思維，基本上就過了思維上的自私，進入下一層次的自私性。
+</p>
+
+
+
+
+<p>
+接下來是行爲上的自私，這部分的代碼會抽象成函數，但是函數實現的功能極其有限，主功能相同的代碼只要稍微有點細節的不同就不能重新使用。比如將最大值的功能抽象成一個函數 max。
+</p>
+
+
+
+
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #4f97d7; font-weight: bold;">def</span> <span style="color: #bc6ec5; font-weight: bold;">max</span><span style="color: #4f97d7;">(</span>lists<span style="color: #4f97d7;">)</span>:
+    <span style="color: #4f97d7; font-weight: bold;">if</span> <span style="color: #4f97d7; font-weight: bold;">not</span> lists: <span style="color: #4f97d7; font-weight: bold;">return</span> <span style="color: #a45bad;">None</span>
+
+    <span style="color: #7590db;">max_value</span> = lists<span style="color: #4f97d7;">[</span><span style="color: #a45bad;">0</span><span style="color: #4f97d7;">]</span>
+    <span style="color: #4f97d7; font-weight: bold;">for</span> v <span style="color: #4f97d7; font-weight: bold;">in</span> lists:
+        <span style="color: #4f97d7; font-weight: bold;">if</span> v &gt; max_value: <span style="color: #7590db;">max_value</span> = v
+
+    <span style="color: #4f97d7; font-weight: bold;">return</span> max_value
+</pre>
+</div>
+
+
+
+
+<p>
+定義完該函數之後，那麼上述的代碼就可以做如下的簡化了。
+</p>
+
+
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #4f97d7; font-weight: bold;">def</span> <span style="color: #bc6ec5; font-weight: bold;">do_something1</span><span style="color: #4f97d7;">()</span>:
+    <span style="color: #7590db;">test_list</span> = <span style="color: #4f97d7;">[</span><span style="color: #a45bad;">1</span>, <span style="color: #a45bad;">3</span>, <span style="color: #a45bad;">0</span>, <span style="color: #a45bad;">8</span>, <span style="color: #a45bad;">9</span>, <span style="color: #a45bad;">2</span><span style="color: #4f97d7;">]</span>
+    method1<span style="color: #4f97d7;">(</span><span style="color: #4f97d7;">max</span><span style="color: #bc6ec5;">(</span>test_list<span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+
+<span style="color: #4f97d7; font-weight: bold;">def</span> <span style="color: #bc6ec5; font-weight: bold;">do_something2</span><span style="color: #4f97d7;">()</span>:
+    <span style="color: #7590db;">test_list</span> = <span style="color: #4f97d7;">[</span><span style="color: #2d9574;">'a'</span>, <span style="color: #2d9574;">'e'</span>, <span style="color: #2d9574;">'c'</span>, <span style="color: #2d9574;">'g'</span><span style="color: #4f97d7;">]</span>
+    method2<span style="color: #4f97d7;">(</span><span style="color: #4f97d7;">max</span><span style="color: #bc6ec5;">(</span>test_list<span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+
+
+<p>
+經過上述的簡單抽象，函數的重複代碼就大大的減少了，但是新的需求是無窮無盡的，比如需要一個新的功能 do_something3，代碼如下：
+</p>
+
+
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #4f97d7; font-weight: bold;">def</span> <span style="color: #bc6ec5; font-weight: bold;">do_something3</span><span style="color: #4f97d7;">()</span>:
+    <span style="color: #7590db;">test_list</span> = <span style="color: #4f97d7;">[</span><span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">'a'</span>, <span style="color: #a45bad;">1</span><span style="color: #bc6ec5;">)</span>, <span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">'e'</span>, <span style="color: #a45bad;">0</span><span style="color: #bc6ec5;">)</span>, <span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">'c'</span>, <span style="color: #a45bad;">9</span><span style="color: #bc6ec5;">)</span>, <span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">'g'</span>, <span style="color: #a45bad;">3</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">]</span>
+
+    <span style="color: #7590db;">max_value</span> = test_list<span style="color: #4f97d7;">[</span><span style="color: #a45bad;">0</span><span style="color: #4f97d7;">]</span>
+    <span style="color: #4f97d7; font-weight: bold;">for</span> v <span style="color: #4f97d7; font-weight: bold;">in</span> test_list<span style="color: #4f97d7;">[</span><span style="color: #a45bad;">1</span>:<span style="color: #4f97d7;">]</span>:
+        <span style="color: #4f97d7; font-weight: bold;">if</span> v<span style="color: #4f97d7;">[</span><span style="color: #a45bad;">1</span><span style="color: #4f97d7;">]</span> &gt; max_value<span style="color: #4f97d7;">[</span><span style="color: #a45bad;">1</span><span style="color: #4f97d7;">]</span>: <span style="color: #7590db;">max_value</span> = v
+
+    method3<span style="color: #4f97d7;">(</span>max_value<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+
+
+<p>
+那麼之前實現的最大值函數就不能使用了，這時候就會考慮如何優化 max 函數的功能，實現上述功能。一旦有了上述的思考並進行行動，那麼就越過了行爲上的自私，進入到了細節上的自私中。
+</p>
+
+
+
+
+<p>
+最後一個層次是細節上的自私，這種行爲根據每個人能力的不同會有不同的表現，下面通過寫幾個 max 函數的版本來說明這點。
+</p>
+
+
+
+
+<p>
+第一個版本的 max 函數功能，增加了 key 關鍵字，可以讓用戶指定排序的字段。
+</p>
+
+
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #4f97d7; font-weight: bold;">def</span> <span style="color: #bc6ec5; font-weight: bold;">max</span><span style="color: #4f97d7;">(</span>lists, key = <span style="color: #4f97d7; font-weight: bold;">lambda</span> x: x<span style="color: #4f97d7;">)</span>:
+    <span style="color: #4f97d7; font-weight: bold;">if</span> <span style="color: #4f97d7; font-weight: bold;">not</span> lists: <span style="color: #4f97d7; font-weight: bold;">return</span> <span style="color: #a45bad;">None</span>
+
+    <span style="color: #7590db;">max_value</span> = lists<span style="color: #4f97d7;">[</span><span style="color: #a45bad;">0</span><span style="color: #4f97d7;">]</span>
+    <span style="color: #4f97d7; font-weight: bold;">for</span> v <span style="color: #4f97d7; font-weight: bold;">in</span> lists:
+        <span style="color: #4f97d7; font-weight: bold;">if</span> key<span style="color: #4f97d7;">(</span>v<span style="color: #4f97d7;">)</span> &gt; key<span style="color: #4f97d7;">(</span>max_value<span style="color: #4f97d7;">)</span>: <span style="color: #7590db;">max_value</span> = v
+
+    <span style="color: #4f97d7; font-weight: bold;">return</span> max_value
+</pre>
+</div>
+
+
+
+
+<p>
+第二個版本增加了可傳入參數的形式，更加方便了程序的使用。
+</p>
+
+
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #4f97d7; font-weight: bold;">def</span> <span style="color: #bc6ec5; font-weight: bold;">max</span><span style="color: #4f97d7;">(</span>*lists, key = <span style="color: #4f97d7; font-weight: bold;">lambda</span> x: x<span style="color: #4f97d7;">)</span>:
+    <span style="color: #7590db;">iter_lists</span> = lists
+    <span style="color: #4f97d7; font-weight: bold;">if</span> <span style="color: #4f97d7;">len</span><span style="color: #4f97d7;">(</span>lists<span style="color: #4f97d7;">)</span> == <span style="color: #a45bad;">1</span>:            <span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">this is a lisp, set, tuple and so on</span>
+        <span style="color: #7590db;">iter_lists</span> = lists<span style="color: #4f97d7;">[</span><span style="color: #a45bad;">0</span><span style="color: #4f97d7;">]</span>
+
+    <span style="color: #4f97d7; font-weight: bold;">if</span> <span style="color: #4f97d7; font-weight: bold;">not</span> iter_lists: <span style="color: #4f97d7; font-weight: bold;">return</span> <span style="color: #a45bad;">None</span>
+
+    <span style="color: #7590db;">max_value</span> = iter_lists<span style="color: #4f97d7;">[</span><span style="color: #a45bad;">0</span><span style="color: #4f97d7;">]</span>
+    <span style="color: #4f97d7; font-weight: bold;">for</span> v <span style="color: #4f97d7; font-weight: bold;">in</span> iter_lists:
+        <span style="color: #4f97d7; font-weight: bold;">if</span> key<span style="color: #4f97d7;">(</span>v<span style="color: #4f97d7;">)</span> &gt; key<span style="color: #4f97d7;">(</span>max_value<span style="color: #4f97d7;">)</span>: <span style="color: #7590db;">max_value</span> = v
+
+    <span style="color: #4f97d7; font-weight: bold;">return</span> max_value
+</pre>
+</div>
+
+
+
+
+<p>
+除了上述兩個版本的實現之外，還有很多可以實現的額外的功能，比如說增加增加一個參數
+uniq 針對並列最大值的特殊處理，還比如說，增加一個 topk 參數實現最大 k 個值返回的功能等等，到達這個層次的程序員，隨着經驗的增加，會寫出越來越無私的代碼。
+</p>
+
+
+
+
+<p>
+這篇博客的目地主要是想通過對一個最簡單的函數 max 的設計過程來闡述編碼中的可擴展性和可易用性。也希望各位程序員能夠寫出越來越無私的代碼，離自私的代碼越來越遠。
+</p>
+
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 數學 | 汗澤]]></title>
+  <link href="http://sweatlake.github.io/blog/categories/shu-xue/atom.xml" rel="self"/>
+  <link href="http://sweatlake.github.io/"/>
+  <updated>2016-08-19T11:21:21+08:00</updated>
+  <id>http://sweatlake.github.io/</id>
+  <author>
+    <name><![CDATA[汗澤]]></name>
+    <email><![CDATA[hanzejl@hotmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[費馬大定理]]></title>
+    <link href="http://sweatlake.github.io/blog/2016-06-08-%E8%B2%BB%E9%A6%AC%E5%A4%A7%E5%AE%9A%E7%90%86.html"/>
+    <updated>2016-06-08T00:00:00+08:00</updated>
+    <id>http://sweatlake.github.io/blog/費馬大定理</id>
+    <content type="html"><![CDATA[<p>
+在今年年初六月份的時候閱讀了一本講解費馬大定理的書籍——<a href="https://book.douban.com/subject/1322358/">《費馬大定理》</a> ，這本書詳細的闡述了費馬大定理的從誕生到被證明這三百多年的歷程，並簡要的說明了涉及到的數學家的生平簡介，是一本結合了數學、歷史和勵志的書。下面是閱讀本書的讀書筆記。
+</p>
+
+
+
+
+<p>
+<!-- more -->
+</p>
+
+
+
+
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1">基本信息</h2>
+<div class="outline-text-2" id="text-orgheadline1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">名稱</th>
+<th scope="col" class="org-left">內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">書名</td>
+<td class="org-left">《費馬大定理》</td>
+</tr>
+
+<tr>
+<td class="org-left">副標題</td>
+<td class="org-left">一個困惑了世間智者 385 年的問題</td>
+</tr>
+
+<tr>
+<td class="org-left">出版社</td>
+<td class="org-left">上海譯文出版社</td>
+</tr>
+
+<tr>
+<td class="org-left">出版年</td>
+<td class="org-left">2005-05-01</td>
+</tr>
+
+<tr>
+<td class="org-left">作者</td>
+<td class="org-left">〔英〕西蒙·辛格</td>
+</tr>
+
+<tr>
+<td class="org-left">譯者</td>
+<td class="org-left">薛密</td>
+</tr>
+
+<tr>
+<td class="org-left">閱讀開始日</td>
+<td class="org-left">2016-06-01</td>
+</tr>
+
+<tr>
+<td class="org-left">閱讀結束日</td>
+<td class="org-left">2016-06-04</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">標籤</td>
+<td class="org-left">數學 猜想 數論</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">總評分</td>
+<td class="org-left">8</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+
+
+<div id="outline-container-orgheadline5" class="outline-2">
+<h2 id="orgheadline5">內容</h2>
+<div class="outline-text-2" id="text-orgheadline5">
+</div><div id="outline-container-orgheadline2" class="outline-3">
+<h3 id="orgheadline2">綱要</h3>
+<div class="outline-text-3" id="text-orgheadline2">
+
+<div class="figure">
+<p><img src="http://7xsu36.com1.z0.glb.clouddn.com/image/%E9%96%B1%E8%AE%80%E7%AD%86%E8%A8%98/%E8%B2%BB%E9%A6%AC%E5%A4%A7%E5%AE%9A%E7%90%86.jpg" alt="會計知識體系" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline3" class="outline-3">
+<h3 id="orgheadline3">主題</h3>
+<div class="outline-text-3" id="text-orgheadline3">
+<p>
+本書詳細的描述了費馬大猜想的從誕生、被嘗試證明以及最終被證明的歷程。詳細的描述了安德魯·懷爾斯的證明歷程，并阐述了堅持不懈，不隨波逐流的數學精神。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline4" class="outline-3">
+<h3 id="orgheadline4">評點</h3>
+<div class="outline-text-3" id="text-orgheadline4">
+<p>
+這是一本非常優秀的數學普及書籍，雖然費費馬大定理的證明過程涉及到了很多的專業數學知識，但是作者通過簡化、類比等形式深入潛出的說明了這些專業的數學知識，並且着重的闡述了在證明過程中所體現的數學精神。我在閱讀的過程中體會了以下幾點。
+</p>
+
+<p>
+首先是擴充了自身的知識面，更加全面的學習了費馬大定理。
+</p>
+
+<p>
+其次是被安德魯·懷爾斯在證明過程中所體現出來的勤奮、堅持不懈、不隨波逐流的精神所折服了。
+</p>
+</div>
+</div>
+</div>
+
+
+
+
+<div id="outline-container-orgheadline6" class="outline-2">
+<h2 id="orgheadline6">參考資料</h2>
+</div>
+
+]]></content>
+  </entry>
+  
+</feed>

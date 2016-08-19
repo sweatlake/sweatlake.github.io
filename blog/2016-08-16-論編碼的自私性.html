@@ -1,0 +1,457 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!-->
+<html class="no-js" lang="zh-CN"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>論編碼的自私性 - 汗澤</title>
+  <meta name="author" content="汗澤">
+  <!--[if lt IE 9]>
+    <script src="http://x.papaapp.com/farm1/a571d2/8dda131d/html5shiv.js"></script>
+    <![endif]-->
+  
+  <meta name="description" content="汗澤 | hanzejl | sweatlake | 独立博客 | Octopress | Emacs-Org | 心情隨筆 | 技術">
+  
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://sweatlake.github.io/blog/2016-08-16-%E8%AB%96%E7%B7%A8%E7%A2%BC%E7%9A%84%E8%87%AA%E7%A7%81%E6%80%A7.html">
+  <link href="/favicon.ico" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="http://t.papaapp.com/js/libs/jquery/1.7.2/jquery.js"></script>
+  <link href="/atom.xml" rel="alternate" title="汗澤" type="application/atom+xml">
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/3.0.3/normalize.min.css">
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.0/pure-min.css">
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.0/grids-responsive-min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<script type="text/javascript" src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
+
+  
+
+</head>
+
+<body>
+    <div class="body_container">
+        <header id="header">    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                <a id="logo" href="/">
+                   汗澤
+                </a>
+                <p class="description">自強不息 厚德載物</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="index-nav current" href="/">
+    <i class="fa fa-home">
+        首頁
+    </i>
+</a>
+<a class="archives-nav" href="/blog/archives">
+    <i class="fa fa-archive">
+        歸檔
+    </i>
+</a>
+<a class="about-nav" href="/blog/about">
+    <i class="fa fa-user">
+        關於
+    </i>
+</a>
+<a class="rss-nav" href="/atom.xml">
+    <i class="fa fa-rss">
+        訂閱
+    </i>
+</a>
+
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+        <div id="layout" class="pure-g">
+			<div class="pure-u-1 pure-u-md-3-4">
+    <div class="content_container">
+        <article class="post clearfix">
+            
+<header>
+    
+    <h1 class="post-title">
+        
+        論編碼的自私性
+        
+    </h1>
+    
+    
+    <p class="post-meta">
+        
+        <span class='month'>Aug</span> <span class='day'>16,</span> <span class='year'>2016</span>
+
+        
+        <span> | </span>
+        
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ji-suan-ji/'>計算機</a>
+  
+</span>
+
+
+        
+
+        
+    </p>
+    
+</header>
+
+
+<div class="post-content"><p>
+自私是人類的本性，就像懶惰、貪婪等一樣根植於人的基因之中。《自私的基因》那本書將「自私」定義爲一切有利於自身生存，不利於他人生存的行爲。這裏，我想借用此概念，將編碼的自私性定義爲：一切有利於自身短期功能實現，不利於他人重複使的編碼。那麼這種編碼最大的特點就是不可維護性。那麼，今日我想借用函數這個最小的程序單元來闡述編碼的自私性的體現，我將這種自私性分爲思維、行爲和細節上的自私三種層次，下面詳細的闡述。
+</p>
+
+<p>
+<!-- more -->
+</p>
+
+<p>
+首先是思維上的自私，這種自私行爲具體是指沒有想到將程序寫成函數，導致會出現很多重複的代碼，極其不利於後期的維護。比如說下面的代碼片段，兩個函數中都需要使用最大值的功能，但是由於沒有考慮將相同功能代碼片段寫成函數，造成了很大的代碼重複。
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #4f97d7; font-weight: bold;">def</span> <span style="color: #bc6ec5; font-weight: bold;">do_something1</span><span style="color: #4f97d7;">()</span>:
+    <span style="color: #7590db;">test_list</span> = <span style="color: #4f97d7;">[</span><span style="color: #a45bad;">1</span>, <span style="color: #a45bad;">3</span>, <span style="color: #a45bad;">0</span>, <span style="color: #a45bad;">8</span>, <span style="color: #a45bad;">9</span>, <span style="color: #a45bad;">2</span><span style="color: #4f97d7;">]</span>
+
+    <span style="color: #7590db;">max_value</span> = test_list<span style="color: #4f97d7;">[</span><span style="color: #a45bad;">0</span><span style="color: #4f97d7;">]</span>
+    <span style="color: #4f97d7; font-weight: bold;">for</span> v <span style="color: #4f97d7; font-weight: bold;">in</span> test_list<span style="color: #4f97d7;">[</span><span style="color: #a45bad;">1</span>:<span style="color: #4f97d7;">]</span>:
+        <span style="color: #4f97d7; font-weight: bold;">if</span> v &gt; max_value:  <span style="color: #7590db;">max_value</span> = v
+
+    method1<span style="color: #4f97d7;">(</span>max_value<span style="color: #4f97d7;">)</span>
+
+<span style="color: #4f97d7; font-weight: bold;">def</span> <span style="color: #bc6ec5; font-weight: bold;">do_something2</span><span style="color: #4f97d7;">()</span>:
+    <span style="color: #7590db;">test_list</span> = <span style="color: #4f97d7;">[</span><span style="color: #2d9574;">'a'</span>, <span style="color: #2d9574;">'e'</span>, <span style="color: #2d9574;">'c'</span>, <span style="color: #2d9574;">'g'</span><span style="color: #4f97d7;">]</span>
+
+    <span style="color: #7590db;">max_value</span> = test_list<span style="color: #4f97d7;">[</span><span style="color: #a45bad;">0</span><span style="color: #4f97d7;">]</span>
+    <span style="color: #4f97d7; font-weight: bold;">for</span> v <span style="color: #4f97d7; font-weight: bold;">in</span> test_list<span style="color: #4f97d7;">[</span><span style="color: #a45bad;">1</span>:<span style="color: #4f97d7;">]</span>:
+        <span style="color: #4f97d7; font-weight: bold;">if</span> v &gt; max_value: <span style="color: #7590db;">max_value</span> = v
+
+    method2<span style="color: #4f97d7;">(</span>max_value<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+
+<p>
+如何優化上述的代碼呢？比較好的解決方法就是將相同功能的代碼抽象成函數，有了寫成函數的思維，基本上就過了思維上的自私，進入下一層次的自私性。
+</p>
+
+<p>
+接下來是行爲上的自私，這部分的代碼會抽象成函數，但是函數實現的功能極其有限，主功能相同的代碼只要稍微有點細節的不同就不能重新使用。比如將最大值的功能抽象成一個函數 max。
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #4f97d7; font-weight: bold;">def</span> <span style="color: #bc6ec5; font-weight: bold;">max</span><span style="color: #4f97d7;">(</span>lists<span style="color: #4f97d7;">)</span>:
+    <span style="color: #4f97d7; font-weight: bold;">if</span> <span style="color: #4f97d7; font-weight: bold;">not</span> lists: <span style="color: #4f97d7; font-weight: bold;">return</span> <span style="color: #a45bad;">None</span>
+
+    <span style="color: #7590db;">max_value</span> = lists<span style="color: #4f97d7;">[</span><span style="color: #a45bad;">0</span><span style="color: #4f97d7;">]</span>
+    <span style="color: #4f97d7; font-weight: bold;">for</span> v <span style="color: #4f97d7; font-weight: bold;">in</span> lists:
+        <span style="color: #4f97d7; font-weight: bold;">if</span> v &gt; max_value: <span style="color: #7590db;">max_value</span> = v
+
+    <span style="color: #4f97d7; font-weight: bold;">return</span> max_value
+</pre>
+</div>
+
+<p>
+定義完該函數之後，那麼上述的代碼就可以做如下的簡化了。
+</p>
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #4f97d7; font-weight: bold;">def</span> <span style="color: #bc6ec5; font-weight: bold;">do_something1</span><span style="color: #4f97d7;">()</span>:
+    <span style="color: #7590db;">test_list</span> = <span style="color: #4f97d7;">[</span><span style="color: #a45bad;">1</span>, <span style="color: #a45bad;">3</span>, <span style="color: #a45bad;">0</span>, <span style="color: #a45bad;">8</span>, <span style="color: #a45bad;">9</span>, <span style="color: #a45bad;">2</span><span style="color: #4f97d7;">]</span>
+    method1<span style="color: #4f97d7;">(</span><span style="color: #4f97d7;">max</span><span style="color: #bc6ec5;">(</span>test_list<span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+
+<span style="color: #4f97d7; font-weight: bold;">def</span> <span style="color: #bc6ec5; font-weight: bold;">do_something2</span><span style="color: #4f97d7;">()</span>:
+    <span style="color: #7590db;">test_list</span> = <span style="color: #4f97d7;">[</span><span style="color: #2d9574;">'a'</span>, <span style="color: #2d9574;">'e'</span>, <span style="color: #2d9574;">'c'</span>, <span style="color: #2d9574;">'g'</span><span style="color: #4f97d7;">]</span>
+    method2<span style="color: #4f97d7;">(</span><span style="color: #4f97d7;">max</span><span style="color: #bc6ec5;">(</span>test_list<span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+<p>
+經過上述的簡單抽象，函數的重複代碼就大大的減少了，但是新的需求是無窮無盡的，比如需要一個新的功能 do_something3，代碼如下：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #4f97d7; font-weight: bold;">def</span> <span style="color: #bc6ec5; font-weight: bold;">do_something3</span><span style="color: #4f97d7;">()</span>:
+    <span style="color: #7590db;">test_list</span> = <span style="color: #4f97d7;">[</span><span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">'a'</span>, <span style="color: #a45bad;">1</span><span style="color: #bc6ec5;">)</span>, <span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">'e'</span>, <span style="color: #a45bad;">0</span><span style="color: #bc6ec5;">)</span>, <span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">'c'</span>, <span style="color: #a45bad;">9</span><span style="color: #bc6ec5;">)</span>, <span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">'g'</span>, <span style="color: #a45bad;">3</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">]</span>
+
+    <span style="color: #7590db;">max_value</span> = test_list<span style="color: #4f97d7;">[</span><span style="color: #a45bad;">0</span><span style="color: #4f97d7;">]</span>
+    <span style="color: #4f97d7; font-weight: bold;">for</span> v <span style="color: #4f97d7; font-weight: bold;">in</span> test_list<span style="color: #4f97d7;">[</span><span style="color: #a45bad;">1</span>:<span style="color: #4f97d7;">]</span>:
+        <span style="color: #4f97d7; font-weight: bold;">if</span> v<span style="color: #4f97d7;">[</span><span style="color: #a45bad;">1</span><span style="color: #4f97d7;">]</span> &gt; max_value<span style="color: #4f97d7;">[</span><span style="color: #a45bad;">1</span><span style="color: #4f97d7;">]</span>: <span style="color: #7590db;">max_value</span> = v
+
+    method3<span style="color: #4f97d7;">(</span>max_value<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+<p>
+那麼之前實現的最大值函數就不能使用了，這時候就會考慮如何優化 max 函數的功能，實現上述功能。一旦有了上述的思考並進行行動，那麼就越過了行爲上的自私，進入到了細節上的自私中。
+</p>
+
+<p>
+最後一個層次是細節上的自私，這種行爲根據每個人能力的不同會有不同的表現，下面通過寫幾個 max 函數的版本來說明這點。
+</p>
+
+<p>
+第一個版本的 max 函數功能，增加了 key 關鍵字，可以讓用戶指定排序的字段。
+</p>
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #4f97d7; font-weight: bold;">def</span> <span style="color: #bc6ec5; font-weight: bold;">max</span><span style="color: #4f97d7;">(</span>lists, key = <span style="color: #4f97d7; font-weight: bold;">lambda</span> x: x<span style="color: #4f97d7;">)</span>:
+    <span style="color: #4f97d7; font-weight: bold;">if</span> <span style="color: #4f97d7; font-weight: bold;">not</span> lists: <span style="color: #4f97d7; font-weight: bold;">return</span> <span style="color: #a45bad;">None</span>
+
+    <span style="color: #7590db;">max_value</span> = lists<span style="color: #4f97d7;">[</span><span style="color: #a45bad;">0</span><span style="color: #4f97d7;">]</span>
+    <span style="color: #4f97d7; font-weight: bold;">for</span> v <span style="color: #4f97d7; font-weight: bold;">in</span> lists:
+        <span style="color: #4f97d7; font-weight: bold;">if</span> key<span style="color: #4f97d7;">(</span>v<span style="color: #4f97d7;">)</span> &gt; key<span style="color: #4f97d7;">(</span>max_value<span style="color: #4f97d7;">)</span>: <span style="color: #7590db;">max_value</span> = v
+
+    <span style="color: #4f97d7; font-weight: bold;">return</span> max_value
+</pre>
+</div>
+
+<p>
+第二個版本增加了可傳入參數的形式，更加方便了程序的使用。
+</p>
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #4f97d7; font-weight: bold;">def</span> <span style="color: #bc6ec5; font-weight: bold;">max</span><span style="color: #4f97d7;">(</span>*lists, key = <span style="color: #4f97d7; font-weight: bold;">lambda</span> x: x<span style="color: #4f97d7;">)</span>:
+    <span style="color: #7590db;">iter_lists</span> = lists
+    <span style="color: #4f97d7; font-weight: bold;">if</span> <span style="color: #4f97d7;">len</span><span style="color: #4f97d7;">(</span>lists<span style="color: #4f97d7;">)</span> == <span style="color: #a45bad;">1</span>:            <span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">this is a lisp, set, tuple and so on</span>
+        <span style="color: #7590db;">iter_lists</span> = lists<span style="color: #4f97d7;">[</span><span style="color: #a45bad;">0</span><span style="color: #4f97d7;">]</span>
+
+    <span style="color: #4f97d7; font-weight: bold;">if</span> <span style="color: #4f97d7; font-weight: bold;">not</span> iter_lists: <span style="color: #4f97d7; font-weight: bold;">return</span> <span style="color: #a45bad;">None</span>
+
+    <span style="color: #7590db;">max_value</span> = iter_lists<span style="color: #4f97d7;">[</span><span style="color: #a45bad;">0</span><span style="color: #4f97d7;">]</span>
+    <span style="color: #4f97d7; font-weight: bold;">for</span> v <span style="color: #4f97d7; font-weight: bold;">in</span> iter_lists:
+        <span style="color: #4f97d7; font-weight: bold;">if</span> key<span style="color: #4f97d7;">(</span>v<span style="color: #4f97d7;">)</span> &gt; key<span style="color: #4f97d7;">(</span>max_value<span style="color: #4f97d7;">)</span>: <span style="color: #7590db;">max_value</span> = v
+
+    <span style="color: #4f97d7; font-weight: bold;">return</span> max_value
+</pre>
+</div>
+
+<p>
+除了上述兩個版本的實現之外，還有很多可以實現的額外的功能，比如說增加增加一個參數
+uniq 針對並列最大值的特殊處理，還比如說，增加一個 topk 參數實現最大 k 個值返回的功能等等，到達這個層次的程序員，隨着經驗的增加，會寫出越來越無私的代碼。
+</p>
+
+<p>
+這篇博客的目地主要是想通過對一個最簡單的函數 max 的設計過程來闡述編碼中的可擴展性和可易用性。也希望各位程序員能夠寫出越來越無私的代碼，離自私的代碼越來越遠。
+</p>
+</div>
+
+
+            <footer class="post-footer">
+                
+
+
+<span class="tags">
+  
+    <a class='tag' href='/blog/tags/bian-cheng/'>編程</a> <a class='tag' href='/blog/tags/ji-suan-ji/'>計算機</a>
+  
+</span>
+
+
+                
+                <div class="sharing">
+  
+  
+  
+</div>
+
+                
+                <div class="post-nav">
+                    
+                    <a class="pre" href="/blog/2016-08-13-%E6%88%91%E7%9A%84%E4%BA%BA%E7%94%9F.html" title="Previous Post: 我的人生">我的人生</a>
+                    
+                    
+                </div>
+            </footer>
+        </article>
+        
+        <section>
+            <h3>Comments</h3>
+            <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+        </section>
+        
+    </div>
+</div>
+
+<div class="pure-u-1-4 hidden_mid_and_down">
+    <div id="sidebar">
+        
+        <section class="widget">
+    <form class="search-form" id="search" action="https://www.google.com/search" method="get">
+    	<input type="hidden" name="q" value="site:sweatlake.github.io"/>
+    	<input type="text" name="q" results="0" class="text" placeholder="Google搜索"/>
+    </form>
+</section>
+<section class="widget">
+    <div class="widget-title">
+        <i class="fa fa-user">  聯繫</i>
+    </div>
+    <div class="tagcloud">
+        <a class="category-list-link" href="https://github.com/hanzejl">
+            <i class="fa fa-github"></i>
+        </a>
+        <a class="category-list-link" href="https://twitter.com/hanzejl">
+            <i class="fa fa-twitter"></i>
+        </a>
+        <a class="category-list-link" href="https://www.facebook.com/profile.php?id=100011473932071">
+            <i class="fa fa-facebook"></i>
+        </a>
+    </div>
+</section>
+<section class="widget">
+	<h3 class="widget-title">
+        <i class="fa fa-anchor">
+            類別
+        </i>
+    </h3>
+	<ul class="tagcloud">
+        <a href='/blog/categories/zheng-jing-guan-fa' class='category-list-link'>政經管法<sup>2</sup></a> <a href='/blog/categories/shu-xue' class='category-list-link'>數學<sup>1</sup></a> <a href='/blog/categories/wen-shi-zhe' class='category-list-link'>文史哲<sup>2</sup></a> <a href='/blog/categories/ji-suan-ji' class='category-list-link'>計算機<sup>1</sup></a> 
+	</ul>
+</section>
+<section class="widget">
+	<h3 class="widget-title">
+        <i class="fa fa-leaf">
+            最近文章
+        </i>
+    </h3>
+	<ul class="widget-list">
+		
+     	<li>
+      	  <a href="/blog/2016-08-16-%E8%AB%96%E7%B7%A8%E7%A2%BC%E7%9A%84%E8%87%AA%E7%A7%81%E6%80%A7.html">論編碼的自私性</a>
+      	</li>
+    	
+     	<li>
+      	  <a href="/blog/2016-08-13-%E6%88%91%E7%9A%84%E4%BA%BA%E7%94%9F.html">我的人生</a>
+      	</li>
+    	
+     	<li>
+      	  <a href="/blog/2016-06-08-%E8%B2%BB%E9%A6%AC%E5%A4%A7%E5%AE%9A%E7%90%86.html">費馬大定理</a>
+      	</li>
+    	
+     	<li>
+      	  <a href="/blog/2016-03-06-%E7%95%AA%E8%8C%84%E5%B7%A5%E4%BD%9C%E6%B3%95.html">番茄工作法</a>
+      	</li>
+    	
+     	<li>
+      	  <a href="/blog/2016-01-10-%E5%8B%B5%E5%BF%97%E8%AA%9E%E9%8C%84.html">勵志語錄</a>
+      	</li>
+    	
+     	<li>
+      	  <a href="/blog/2015-10-20-%E6%B3%A8%E6%9C%83%E8%80%83%E8%A9%A6%E6%96%B9%E6%B3%95.html">注會考試方法</a>
+      	</li>
+    	
+	</ul>
+</section>
+<section class="widget">
+	<h3 class="widget-title">
+        <i class="fa fa-external-link">
+            友情鏈接
+        </i>
+    </h3>
+	<ul class="widget-list">
+     	<li> <a href="http://zenhabits.net/">Zen Habaits</a> </li>
+     	<li> <a href="http://blog.gujun-sky.com/">Junjun Home</a> </li>
+     	<li> <a href="http://stevelosh.com/blog/">Steve Losh</a> </li>
+     	<li> <a href="http://nana.blog.paowang.net/">人生不過如此</a> </li>
+     	<li> <a href="https://www.byvoid.com/">Beyond the Void</a> </li>
+     	<li> <a href="http://www.tlmm123.com/">土狼妹妹</a> </li>
+     	<li> <a href="http://sivers.org/">Serek Sivers</a></li>
+	</ul>
+</section>
+
+
+        
+    </div>
+</div>
+
+
+        </div>
+        <div class="pure-u-1 pure-u-md-3-4">
+  	        <div id="footer">
+	Copyright &copy; 2016 - 汗澤 -
+  <span class="credit">Powered by <a rel="nofollow" href="http://octopress.org">Octopress</a> on <a rel="nofollow" href="http://pages.github.com/">GitHubPages</a>
+  </span>
+  - <span class="credit">Theme by <a rel="nofollow" href="http://pagecho.com">Cho</a></span>
+
+
+</div>
+
+        </div>
+        
+
+<script type="text/javascript">
+      var disqus_shortname = 'sweatlake';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sweatlake.github.io/blog/2016-08-16-%E8%AB%96%E7%B7%A8%E7%A2%BC%E7%9A%84%E8%87%AA%E7%A7%81%E6%80%A7.html';
+        var disqus_url = 'http://sweatlake.github.io/blog/2016-08-16-%E8%AB%96%E7%B7%A8%E7%A2%BC%E7%9A%84%E8%87%AA%E7%A7%81%E6%80%A7.html';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src= '/javascripts/totop.js' async="async"></script>
+
+<!-- MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript"
+   src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+    </div>
+</body>
+</html>
